@@ -1,8 +1,28 @@
-<script>
-  import { pokemon } from "../stores/pokestore";
-  import PokemanCard from "../components/pokemanCard.svelte";
-import { validate_each_argument } from "svelte/internal";
+<script context="module">
+  export async function load({params}){
+    const url = `https://pokeapi.co/api/v2/pokemon?limit=40`;
+    const res = await fetch(url);
+    const data = await res.json();
 
+    const loadedPokemon = data.results.map( (data, index) => {
+
+        return {
+            name: data.name,
+            id: index + 1,
+            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`
+        }
+    });
+    return {props: {pokemon:loadedPokemon}}
+  }
+</script>
+<script>
+  /* INstead of importing pokemon from the Store we use export let pokemon. */
+  /* import { pokemon } from "../stores/pokestore"; */
+
+  import PokemanCard from "../components/pokemanCard.svelte";
+  import { validate_each_argument } from "svelte/internal";
+
+  export let pokemon;
 
   // let nameSearchTerm = "";
   // let idSearchTerm = "";
@@ -16,7 +36,7 @@ import { validate_each_argument } from "svelte/internal";
 
     if (searchTerm){
 
-      filteredPokemon = $pokemon.filter(
+      filteredPokemon = pokemon.filter(
           pokeman => (  
           pokeman.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
           pokeman.id.toString().includes(searchTerm)
@@ -24,7 +44,7 @@ import { validate_each_argument } from "svelte/internal";
         );
     }
     else {
-        filteredPokemon = [...$pokemon];
+        filteredPokemon = [...pokemon];
     }
 
   }
