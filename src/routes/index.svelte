@@ -1,7 +1,7 @@
 <script>
   import { pokemon } from "../stores/pokestore";
   import PokemanCard from "../components/pokemanCard.svelte";
-import { validate_each_argument } from "svelte/internal";
+  import { validate_each_argument } from "svelte/internal";
 
 
   // let nameSearchTerm = "";
