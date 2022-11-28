@@ -1,5 +1,8 @@
 <script>
+
+  // Fetch and transform data returning array of objects
   import { pokemon } from "../stores/pokestore";
+  // Load component with exposed connection to pass values in
   import PokemanCard from "../components/pokemanCard.svelte";
   import { validate_each_argument } from "svelte/internal";
 
